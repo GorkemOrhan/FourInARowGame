@@ -1,11 +1,14 @@
 package Shape;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.Point;
+import java.awt.event.MouseListener;
 
-public class JFrameTokenShape extends TokenShape{
+public class JFrameTokenShape extends TokenShape {
 
-    int columnIndex;
-    int rowIndex;
+    public int columnIndex;
+    public int rowIndex;
 
     boolean used = false;
 
@@ -24,8 +27,4 @@ public class JFrameTokenShape extends TokenShape{
         this.columnIndex = columnIndex;
         this.rowIndex = rowIndex;
     }
-
-    public double mostXLeft = getLocation().x;
-    public double mostXRight = getLocation().x+100;
-
 }

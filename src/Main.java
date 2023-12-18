@@ -3,15 +3,21 @@ import Shape.JFrameTokenShape;
 
 public class Main {
     public static void main(String[] args) {
-        FrameControl t = new FrameControl();
-        t.setVisible(true);
+        FrameControl frameControl = new FrameControl();
+        frameControl.setVisible(true);
 
-        Component[] components = t.panel.getComponents();
+        for (Column columnObject:frameControl.columns){
+            JFrameTokenShape firstTokenByColumn = columnObject.columnList.get(0);
+            columnObject.setLocation(firstTokenByColumn.getCircleScreenLocation());
 
-        for (Component comp:components){
-            JFrameTokenShape shape =  (JFrameTokenShape)comp;
-
-            System.out.println("xMin:"+shape.mostXLeft+" - xMax:"+shape.mostXRight);
+            System.out.println("columnIndex:"+firstTokenByColumn.columnIndex+"---------"+"mostLeftPoint:"+columnObject.mostLeftPoint+", mostRightPoint:"+columnObject.mostRightPoint);
         }
+
+        Component[] components = frameControl.panel.getComponents();
+
+     /*   for (Component comp:components){
+            JFrameTokenShape shape =  (JFrameTokenShape)comp;
+            System.out.println(shape.getCircleScreenLocation());
+        } */
     }
 }
