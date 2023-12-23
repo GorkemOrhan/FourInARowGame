@@ -6,18 +6,18 @@ public class Main {
         FrameControl frameControl = new FrameControl();
         frameControl.setVisible(true);
 
-        for (Column columnObject:frameControl.columns){
-            JFrameTokenShape firstTokenByColumn = columnObject.columnList.get(0);
-            columnObject.setLocation(firstTokenByColumn.getCircleScreenLocation());
+       var mainLayoutPanelWidth = frameControl.mainLayoutPanel.getSize().width;
 
-            System.out.println("columnIndex:"+firstTokenByColumn.columnIndex+"---------"+"mostLeftPoint:"+columnObject.mostLeftPoint+", mostRightPoint:"+columnObject.mostRightPoint);
+       var tokenShapeWidth = mainLayoutPanelWidth/FrameControl.COLUMNS;
+
+        for (var i =0; i<frameControl.columnObjectHolderList.size();i++){
+            var mostLeftX = tokenShapeWidth * i;
+            var mostRightX = mostLeftX+tokenShapeWidth;
+            frameControl.columnObjectHolderList.get(i).setPoint(mostLeftX,mostRightX);
         }
 
-        Component[] components = frameControl.panel.getComponents();
-
-     /*   for (Component comp:components){
-            JFrameTokenShape shape =  (JFrameTokenShape)comp;
-            System.out.println(shape.getCircleScreenLocation());
-        } */
+        for (ColumnObjectHolder columnObjectHolder:frameControl.columnObjectHolderList){
+            //System.out.println(columnObjectHolder.mostLeftPoint+"-"+columnObjectHolder.mostRightPoint);
+        }
     }
 }
