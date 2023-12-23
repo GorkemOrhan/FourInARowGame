@@ -1,16 +1,18 @@
 import Shape.JFrameTokenShape;
+import Shape.ShapeSettings;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class ColumnObjectHolder {
     public double mostLeftPoint;
     public double mostRightPoint;
+
     ArrayList<JFrameTokenShape> rowList = new ArrayList<JFrameTokenShape>();
 
-
     public JFrameTokenShape addTokenShape(int columnIndex, int rowIndex){
-        JFrameTokenShape shape = new JFrameTokenShape(50,columnIndex,rowIndex);
+        JFrameTokenShape shape = new JFrameTokenShape(ShapeSettings.DefaultJframeTokenShapeBackColor,50,columnIndex,rowIndex);
         rowList.add(shape);
         return  shape;
     }
@@ -22,14 +24,22 @@ public class ColumnObjectHolder {
 
     public void changeBackGroundColor(){
         for(JFrameTokenShape token:rowList){
-            token.setBackground(Color.red);
+            token.changeBackgroundColor(ShapeSettings.MouseMoveJframeTokenShapeBackColor);
         }
     }
 
     public void setDefaultBackgroundColor(){
         for(JFrameTokenShape token:rowList){
-            token.setBackground(Color.black);
+            token.changeBackgroundColor(ShapeSettings.DefaultJframeTokenShapeBackColor);
         }
     }
 
+    public JFrameTokenShape findElement(){
+        for(var i = rowList.size()-1; i>=0;i--){
+            if(!rowList.get(i).used){
+                return  rowList.get(i);
+            }
+        }
+        return  null;
+    }
 }

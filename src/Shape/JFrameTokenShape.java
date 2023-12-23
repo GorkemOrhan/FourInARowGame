@@ -1,30 +1,34 @@
 package Shape;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.Point;
-import java.awt.event.MouseListener;
 
 public class JFrameTokenShape extends TokenShape {
 
     public int columnIndex;
     public int rowIndex;
 
-    boolean used = false;
+    public boolean used = false;
 
     protected boolean isUsed() {
 
         return used;
     }
 
-    protected void markAsUsed(Color backgroundColor) {
+    public void markAsUsed(Color backgroundColor) {
+        changeBackgroundColor(backgroundColor);
         used = true;
-        setBackground(backgroundColor);
     }
 
-    public JFrameTokenShape(int radius, int columnIndex, int rowIndex) {
-        super(radius);
+    public JFrameTokenShape(Color backgroundColor,int radius, int columnIndex, int rowIndex) {
+        super(radius,backgroundColor);
         this.columnIndex = columnIndex;
         this.rowIndex = rowIndex;
+    }
+
+    public void changeBackgroundColor(Color backgroundColor){
+        if(!used){
+            this.backgroundColor = backgroundColor;
+            repaint();
+        }
     }
 }

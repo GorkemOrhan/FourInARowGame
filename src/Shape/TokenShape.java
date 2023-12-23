@@ -2,15 +2,16 @@ package Shape;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Point;
 
 public abstract class TokenShape extends JPanel {
 
     protected int radius;
-    private Graphics2D g2d;
+    protected  Color backgroundColor;
 
-    public TokenShape(int radius) {
+    protected TokenShape(int radius, Color backgroundColor) {
         this.radius = radius;
+        this.backgroundColor = backgroundColor;
+        setBackground(Color.DARK_GRAY);
     }
 
     @Override
@@ -21,12 +22,9 @@ public abstract class TokenShape extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int x = (getWidth() - radius) / 2; // X-coordinate for the circle
-        int y = (getHeight() - radius) / 2; // Y-coordinate for the circle
-        g.fillOval(x, y, radius, radius); // Draw the circle
-    }
-
-    public void setColor(Color color) {
-        g2d.setColor(color);
+        int x = (getWidth() - radius) / 2;
+        int y = (getHeight() - radius) / 2;
+        g.setColor(backgroundColor);
+        g.fillOval(x, y, radius, radius);
     }
 }

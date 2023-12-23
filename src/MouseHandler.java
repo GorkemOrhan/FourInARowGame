@@ -8,6 +8,6 @@ public class MouseHandler implements MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        //System.out.println(e.getX());
+
     }
 }

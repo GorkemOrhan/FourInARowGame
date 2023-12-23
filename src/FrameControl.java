@@ -15,6 +15,7 @@ public class FrameControl extends JFrame  {
 
     public FrameControl(){
         mainLayoutPanel = new JPanel(new GridLayout(ROWS,COLUMNS));
+        mainLayoutPanel.setBackground(Color.DARK_GRAY);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800,800);
         columnObjectHolderList = new ArrayList<ColumnObjectHolder>();
@@ -31,15 +32,14 @@ public class FrameControl extends JFrame  {
                 mainLayoutPanel.add(shape);
             }
         }
-      /*  for(ColumnObjectHolder columnObject:columnObjectHolderList){
-            var firstShapeByColumn = columnObject.rowList.get(0);
-            firstShapeByColumn.setBackground(Color.red);
-        }*/
+
         add(mainLayoutPanel);
-        MouseHandler handler =new MouseHandler();
-        mainLayoutPanel.addMouseMotionListener(handler);
+        MouseMotionHandler mouseMotionHandler =new MouseMotionHandler();
+        MouseHandler mouseHandler =new MouseHandler();
+        mainLayoutPanel.addMouseMotionListener(mouseMotionHandler);
+        mainLayoutPanel.addMouseListener(mouseHandler);
     }
-    public class MouseHandler implements MouseMotionListener {
+    public class MouseMotionHandler implements MouseMotionListener {
 
         @Override
         public void mouseDragged(MouseEvent e) {
@@ -53,17 +53,64 @@ public class FrameControl extends JFrame  {
                 @Override
                 public void run() {
                     int mouseX = e.getX();
-                    System.out.println(mouseX);
                     for(ColumnObjectHolder columnObjectHolder:columnObjectHolderList){
                         if(mouseX>=columnObjectHolder.mostLeftPoint && mouseX<=columnObjectHolder.mostRightPoint){
                             columnObjectHolder.changeBackGroundColor();
+                            continue;
                         }
-
                         columnObjectHolder.setDefaultBackgroundColor();
                     }
                 }
             };
             thread.start();
+        }
+    }
+
+    public class MouseHandler implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            Thread thread = new Thread(){
+                @Override
+                public void run() {
+                    int mouseX = e.getX();
+                    ColumnObjectHolder selectedColumnObjectHolder = null;
+                    for(ColumnObjectHolder columnObjectHolder:columnObjectHolderList){
+                        if(mouseX>=columnObjectHolder.mostLeftPoint && mouseX<=columnObjectHolder.mostRightPoint){
+                            selectedColumnObjectHolder = columnObjectHolder;
+                            break;
+                        }
+                    }
+
+                    if(selectedColumnObjectHolder!=null){
+                        var tokenElement = selectedColumnObjectHolder.findElement();
+                        if(tokenElement!=null){
+                            tokenElement.markAsUsed(Color.blue);
+                        }
+                    }
+                }
+            };
+            thread.start();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
         }
     }
 }
