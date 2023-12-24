@@ -6,7 +6,7 @@ import java.awt.*;
 public abstract class TokenShape extends JPanel {
 
     protected int radius;
-    protected  Color backgroundColor;
+    public  Color backgroundColor;
 
     protected TokenShape(int radius, Color backgroundColor) {
         this.radius = radius;

@@ -15,9 +15,5 @@ public class Main {
             var mostRightX = mostLeftX+tokenShapeWidth;
             frameControl.columnObjectHolderList.get(i).setPoint(mostLeftX,mostRightX);
         }
-
-        for (ColumnObjectHolder columnObjectHolder:frameControl.columnObjectHolderList){
-            //System.out.println(columnObjectHolder.mostLeftPoint+"-"+columnObjectHolder.mostRightPoint);
-        }
     }
 }

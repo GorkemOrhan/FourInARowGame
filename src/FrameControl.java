@@ -11,17 +11,26 @@ public class FrameControl extends JFrame  {
     public static final int ROWS = 6;
     public static final int COLUMNS = 7;
     public JPanel mainLayoutPanel;
-    public ArrayList<ColumnObjectHolder> columnObjectHolderList;
+    public ColumnObjectHolderArrayList columnObjectHolderList;
+    private JLabel playerTurn;
+    public Player player1;
+    public Player player2;
+    public Player currentPlayer;
 
     public FrameControl(){
+        playerTurn = new JLabel();
         mainLayoutPanel = new JPanel(new GridLayout(ROWS,COLUMNS));
         mainLayoutPanel.setBackground(Color.DARK_GRAY);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800,800);
-        columnObjectHolderList = new ArrayList<ColumnObjectHolder>();
+        setSize(500,500);
+        columnObjectHolderList = new ColumnObjectHolderArrayList();
+        player1 = new Player(Color.BLUE,"First");
+        player2 = new Player(Color.ORANGE,"Second");
+        currentPlayer = player1;
+        turnPlayer();
 
         for (var i=0; i<COLUMNS;i++){
-            ColumnObjectHolder columnObjectHolder = new ColumnObjectHolder();
+            ColumnObjectHolder columnObjectHolder = new ColumnObjectHolder(i);
             columnObjectHolderList.add(columnObjectHolder);
         }
 
@@ -33,11 +42,20 @@ public class FrameControl extends JFrame  {
             }
         }
 
-        add(mainLayoutPanel);
+        add(mainLayoutPanel,BorderLayout.SOUTH);
+       // playerTurn.setBounds(200,30,250,250);
+        playerTurn.setHorizontalAlignment(SwingConstants.CENTER);
+        playerTurn.setFont(new Font("Verdana", Font.PLAIN, 15));
+       // playerTurn.setPreferredSize(new Dimension(250, 100));
+        add(playerTurn);
         MouseMotionHandler mouseMotionHandler =new MouseMotionHandler();
         MouseHandler mouseHandler =new MouseHandler();
         mainLayoutPanel.addMouseMotionListener(mouseMotionHandler);
         mainLayoutPanel.addMouseListener(mouseHandler);
+    }
+    private void turnPlayer(){
+        playerTurn.setText("Next player: "+currentPlayer.nickName);
+        playerTurn.setForeground(currentPlayer.tokenColor);
     }
     public class MouseMotionHandler implements MouseMotionListener {
 
@@ -83,9 +101,24 @@ public class FrameControl extends JFrame  {
                     }
 
                     if(selectedColumnObjectHolder!=null){
-                        var tokenElement = selectedColumnObjectHolder.findElement();
+                        var tokenElement = selectedColumnObjectHolder.findUnusedLastElement();
                         if(tokenElement!=null){
-                            tokenElement.markAsUsed(Color.blue);
+                            tokenElement.markAsUsed(currentPlayer.tokenColor);
+                            if(selectedColumnObjectHolder.findFourInAColumn(currentPlayer.tokenColor)){
+                                playerTurn.setText(currentPlayer.nickName +" won!");
+                                return;
+                            };
+                            if(columnObjectHolderList.hasConsecutiveSameElements(tokenElement)){
+                                playerTurn.setText(currentPlayer.nickName +" won!");
+                                return;
+                            };
+                            if(currentPlayer==player1){
+                                currentPlayer=player2;
+                            }
+                            else{
+                                currentPlayer=player1;
+                            }
+                            turnPlayer();
                         }
                     }
                 }
