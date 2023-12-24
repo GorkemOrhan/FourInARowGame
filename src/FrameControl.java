@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 import Shape.JFrameTokenShape;
@@ -16,6 +14,9 @@ public class FrameControl extends JFrame  {
     public Player player1;
     public Player player2;
     public Player currentPlayer;
+    public JButton startBtn = new JButton("Start");
+    public JButton restartBtn = new JButton("Restart");
+    public JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
     public FrameControl(){
         playerTurn = new JLabel();
@@ -47,12 +48,32 @@ public class FrameControl extends JFrame  {
         playerTurn.setHorizontalAlignment(SwingConstants.CENTER);
         playerTurn.setFont(new Font("Verdana", Font.PLAIN, 15));
        // playerTurn.setPreferredSize(new Dimension(250, 100));
-        add(playerTurn);
+        buttonPanel.add(startBtn);
+        buttonPanel.add(playerTurn);
+        buttonPanel.add(restartBtn);
         MouseMotionHandler mouseMotionHandler =new MouseMotionHandler();
         MouseHandler mouseHandler =new MouseHandler();
+        ButtonHandler buttonHandler = new ButtonHandler();
+        startBtn.addActionListener(buttonHandler);
         mainLayoutPanel.addMouseMotionListener(mouseMotionHandler);
         mainLayoutPanel.addMouseListener(mouseHandler);
+        add(buttonPanel);
+        setPanelEnabled(mainLayoutPanel,false);
     }
+
+    public void setPanelEnabled(JPanel panel, Boolean isEnabled) {
+        panel.setEnabled(isEnabled);
+
+        Component[] components = panel.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JPanel) {
+                setPanelEnabled((JPanel) component, isEnabled);
+            }
+            component.setEnabled(isEnabled);
+        }
+    }
+
     private void turnPlayer(){
         playerTurn.setText("Next player: "+currentPlayer.nickName);
         playerTurn.setForeground(currentPlayer.tokenColor);
@@ -112,6 +133,10 @@ public class FrameControl extends JFrame  {
                                 playerTurn.setText(currentPlayer.nickName +" won!");
                                 return;
                             };
+                            if(columnObjectHolderList.hasDiagonalSameElements(selectedColumnObjectHolder,tokenElement)){
+                                playerTurn.setText(currentPlayer.nickName +" won!");
+                                return;
+                            };
                             if(currentPlayer==player1){
                                 currentPlayer=player2;
                             }
@@ -144,6 +169,18 @@ public class FrameControl extends JFrame  {
         @Override
         public void mouseExited(MouseEvent e) {
 
+        }
+    }
+    public class ButtonHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource()==startBtn){
+                setPanelEnabled(mainLayoutPanel,true);
+            }
+            if(e.getSource()==restartBtn){
+
+            }
         }
     }
 }
