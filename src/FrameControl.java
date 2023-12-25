@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 import Shape.JFrameTokenShape;
 
@@ -125,15 +124,15 @@ public class FrameControl extends JFrame  {
                         var tokenElement = selectedColumnObjectHolder.findUnusedLastElement();
                         if(tokenElement!=null){
                             tokenElement.markAsUsed(currentPlayer.tokenColor);
-                            if(selectedColumnObjectHolder.findFourInAColumn(currentPlayer.tokenColor)){
+                            if(selectedColumnObjectHolder.hasVerticalMatch(currentPlayer.tokenColor)){
                                 playerTurn.setText(currentPlayer.nickName +" won!");
                                 return;
                             };
-                            if(columnObjectHolderList.hasConsecutiveSameElements(tokenElement)){
+                            if(columnObjectHolderList.hasConsecutiveMatch(tokenElement)){
                                 playerTurn.setText(currentPlayer.nickName +" won!");
                                 return;
                             };
-                            if(columnObjectHolderList.hasDiagonalSameElements(selectedColumnObjectHolder,tokenElement)){
+                            if(columnObjectHolderList.hasDiagonalMatch(tokenElement)){
                                 playerTurn.setText(currentPlayer.nickName +" won!");
                                 return;
                             };

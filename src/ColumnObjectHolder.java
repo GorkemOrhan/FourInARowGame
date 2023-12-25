@@ -60,7 +60,7 @@ public class ColumnObjectHolder {
         return usedRowList;
     }
 
-    public boolean findFourInAColumn(Color tokenColor) {
+    public boolean hasVerticalMatch(Color tokenColor) {
         var usedRowList = getUsedRowList();
         int counter = 0;
         for (int i = usedRowList.size() - 1; i >= 0; i--) {
