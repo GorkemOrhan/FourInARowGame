@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class ColumnObjectHolder {
     public double mostLeftPoint;
     public double mostRightPoint;
-    public FrameControl fc;
     public int index;
 
     public ColumnObjectHolder(int index) {
